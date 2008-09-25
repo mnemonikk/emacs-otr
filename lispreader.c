@@ -312,6 +312,7 @@ lisp_make_real_with_allocator (allocator_t *allocator, float value)
 static lisp_object_t*
 lisp_make_symbol_with_allocator_internal (allocator_t *allocator, const char *str, size_t len)
 {
+    if (strncmp(str, "nil", len) == 0) return lisp_nil();
     lisp_object_t *obj = lisp_object_alloc(allocator, LISP_TYPE_SYMBOL);
 
     obj->v.string = allocator_alloc(allocator, len + 1);
