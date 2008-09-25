@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2008  Anselm Helbig
 
-;; Author: Anselm Helbig <anselm.helbig@gmx.de>
+;; Author: Anselm Helbig <anselm.helbig@googlemail.com>
 ;; Keywords: comm, extensions
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,57 @@
 
 ;;; Commentary:
 
+;; `otr-lib' provides bindings to libotr, the client library for
+;; off-the-record messaging.
+;;
+;; One part of it is a small program written in C that reads symbolic
+;; expressions (sexps) from stdin, translates them into libotr library
+;; calls and converts the results back into sexps.
+;;
+;; This emacs library takes care of starting the libotr proxy, sending
+;; properly formed requests to it, parsing the results and executing
+;; all necessary callbacks.
+;;
+;; Here is an example of how you might use it in your programs
 ;; 
+;;   (add-to-list 'load-path "your/lisp/path")
+;;   (setq otr-program "path/to/emacs-otr")
+;; 
+;;   (require 'otr-lib)
+;; 
+;;   (defvar otr-private-key-filename "~/.emacs-otr/private-key"
+;;     "Where to store private keys")
+;;   (defvar otr-fingerprint-filename "~/.emacs-otr/fingerprint"
+;;     "Where to store fingerprints ")
+;; 
+;;   (defmacro otr-ui-stub (name)
+;;     `(defun ,name (&rest args)
+;;        (message "received \"%s\" with args %S" ',name args)
+;;        nil))
+;;   (defun otr-policy (context)
+;;     '(allow_v1 allow_v2 require_encryption send_whitespace_tag whitespace_start_ake))
+;;   (defun otr-display-otr-message (accountname protocol username msg)
+;;     (message "Message for account %s, protocol %s, username: %s, message: %s"
+;;              accountname protocol username msg)
+;;     nil)
+;;   (otr-ui-stub otr-is-logged-in)
+;;   (otr-ui-stub otr-update-context-list)
+;; 
+;;   (setq otr-ui-callbacks
+;;         '((update-context-list . otr-update-context-list)
+;;           (policy              . otr-policy)
+;;           (display-otr-message . otr-display-otr-message)
+;;           (is-logged-in        . otr-is-logged-in)))
+;; 
+;;   (otr-start)
+;;   (otr-eval `(privkey-read              ,(expand-file-name otr-private-key-filename)))
+;;   (otr-eval `(privkey-read-fingerprints ,(expand-file-name otr-fingerprint-filename))))
+;;   (otr-eval `(privkey-generate          ,(expand-file-name otr-private-key-filename) "my-account" "protocol"))
+;; 
+;;   ;; returns the message to send instead
+;;   (otr-eval `(message-sending "my-account" "protocol" "recipient-account" "Here goes the message!"))
+;;   ;; returns the decoded message
+;;   (otr-eval `(message-receiving "my-account" "protocol" "sender-account" "some possibly encrypted message"))
 
 ;;; Code:
 
