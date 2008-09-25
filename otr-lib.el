@@ -23,9 +23,9 @@
 ;; `otr-lib' provides bindings to libotr, the client library for
 ;; off-the-record messaging.
 ;;
-;; One part of it is a small program written in C that reads symbolic
-;; expressions (sexps) from stdin, translates them into libotr library
-;; calls and converts the results back into sexps.
+;; One part of it is a small program written in C, the libotr proxy, that
+;; reads symbolic expressions (sexps) from stdin, translates them into
+;; libotr library calls and converts the results back into sexps.
 ;;
 ;; This emacs library takes care of starting the libotr proxy, sending
 ;; properly formed requests to it, parsing the results and executing
@@ -34,7 +34,7 @@
 ;; Here is an example of how you might use it in your programs
 ;; 
 ;;   (add-to-list 'load-path "your/lisp/path")
-;;   (setq otr-program "path/to/emacs-otr")
+;;   (setq otr-program "path/to/libotr-proxy")
 ;; 
 ;;   (require 'otr-lib)
 ;; 
@@ -76,7 +76,7 @@
 
 (require 'cl)
 
-(defvar otr-program "emacs-otr"
+(defvar otr-program "libotr-proxy"
   "Path to the libotr proxy executable")
 
 ;; process handling
