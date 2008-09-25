@@ -361,14 +361,6 @@ lisp_object_t *quit(lisp_object_t *sx) {
   return lisp_nil();
 }
 
-lisp_object_t *identity(lisp_object_t *sx) {
-  return sx;
-}
-
-lisp_object_t *prefix(lisp_object_t *sx) {
-  return lisp_make_cons(lisp_make_symbol("foo"), sx);
-}
-
 /* otrl_privkey_read(userstate, privkeyfilename); */
 lisp_object_t *_otrl_privkey_read(lisp_object_t *sx) {
   otrl_privkey_read(userstate, lisp_string(lisp_car(sx)));
@@ -441,8 +433,6 @@ typedef struct {
 
 static Command commands[] = {
   { "quit", quit },
-  { "identity", identity },
-  { "prefix", prefix },
   { "privkey-read", _otrl_privkey_read },
   { "privkey-read-fingerprints", _otrl_privkey_read_fingerprints },
   { "privkey-generate", _otrl_privkey_generate },
