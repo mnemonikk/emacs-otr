@@ -21,4 +21,8 @@ all: $(EXECUTABLES)
 libotr-proxy: libotr-proxy.c $(LISPREADER_OBJS)
 	$(CC) -o $@ $(DEBUGFLAGS) $(COMPILE_FLAGS) $@.c $(LINK_FLAGS)
 
+clean:
+	rm -f libotr-proxy $(LISPREADER_OBJS)
 
+install: 
+	install libotr-proxy /usr/local/bin
