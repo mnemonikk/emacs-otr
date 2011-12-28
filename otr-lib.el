@@ -178,8 +178,8 @@ Needed if we should ever receive an incomplete response.")
       (when raw-result
         (let* ((result (car raw-result))
                (chars-read (cdr raw-result))
-               (type (result-type result))
-               (value (result-value result)))
+               (type (otr-result-type result))
+               (value (otr-result-value result)))
           (setq otr-response-buffer (substring otr-response-buffer chars-read))
           (unless otr-request-running 
             (error "Got unrequested response: %s" result))
