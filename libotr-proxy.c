@@ -24,7 +24,7 @@ lisp_object_t *_vmake_list(lisp_object_t *first, va_list ap) {
   lisp_object_t *list, *last, *next, *current;
   list = lisp_make_cons(first, lisp_nil());
   last = list;
-  while ((void*) (next = va_arg(ap, lisp_object_t*)) != (void*) -1) {
+  while ((void*) (next = va_arg(ap, lisp_object_t*)) != (void*) -1L) {
     current = lisp_make_cons(next, lisp_nil());
     last->v.cons.cdr = current;
     last = current;
@@ -39,7 +39,7 @@ lisp_object_t *_make_list(lisp_object_t *first, ...) {
   va_end(ap);
   return result;
 }
-#define make_list(...) _make_list(__VA_ARGS__, -1)
+#define make_list(...) _make_list(__VA_ARGS__, (void*) -1L)
 
 /* make_alist */
 lisp_object_t *_vmake_alist(const char *key, lisp_object_t *val, va_list ap) {
@@ -47,7 +47,7 @@ lisp_object_t *_vmake_alist(const char *key, lisp_object_t *val, va_list ap) {
   const char *next_key;
   list = lisp_make_cons(lisp_make_cons(lisp_make_symbol(key), val), lisp_nil());
   last = list;
-  while ((void*) (next_key = va_arg(ap, const char*)) != (void*) -1) {
+  while ((void*) (next_key = va_arg(ap, const char*)) != (void*) -1L) {
     current = lisp_make_cons(lisp_make_cons(lisp_make_symbol(next_key),
                                             va_arg(ap, lisp_object_t*)), lisp_nil());
     last->v.cons.cdr = current;
@@ -63,7 +63,7 @@ lisp_object_t *_make_alist(const char *key, lisp_object_t *val, ...) {
   va_end(ap);
   return result;
 }
-#define make_alist(...) _make_alist(__VA_ARGS__, -1)
+#define make_alist(...) _make_alist(__VA_ARGS__, (void*) -1L)
 
 
 /* flag handling */
@@ -130,7 +130,7 @@ lisp_object_t *_make_question(const char *name, ...) {
   va_end(ap);
   return result;
 }
-#define make_question(...) _make_question(__VA_ARGS__, -1)
+#define make_question(...) _make_question(__VA_ARGS__, (void*) -1L)
 
 lisp_object_t *ui_ask(lisp_object_t *question) {
   lisp_dump(question, stdout);
