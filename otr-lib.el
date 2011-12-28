@@ -106,6 +106,7 @@
   "Send a sexp to the libotr proxy"
   (let ((string (concat (prin1-to-string form) "\n")))
     (message "[OTR] sending %S" string)
+    (otr-copy-output-to-process-buffer otr-process string)
     (process-send-string otr-process string)))
 
 ;; queuing
